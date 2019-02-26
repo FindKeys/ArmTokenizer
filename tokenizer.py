@@ -2,11 +2,11 @@
 from abc import ABCMeta, abstractmethod
 from six import add_metaclass
 from collections import namedtuple
-from utils import overrides
+from utils import *
 from api import ArmTokenizerBase
 from punct import Punct
 import re
-
+import math
 #Class Defination
 class Tokenizer(ArmTokenizerBase):
 	
@@ -32,6 +32,37 @@ class Tokenizer(ArmTokenizerBase):
 	
 	TOKENIZATION_RULES = [
 	#TODO
+	(1, inter_measures()),
+	(2, double_measures()),
+	(3, time()),
+	(4, date()),
+	(5.1, float_numbers(without_first=False)),
+	(5.2, float_numbers(without_first=True)),
+	(6.1, postfix_1()),
+	(6.2, postfix_2()),
+	(6.3, postfix_3()),
+	(7,   email()),
+	(8,   hashtags())]
+
+	TOKENIZATION_RULES.extend([(9.1+0.1*i, regex) for i,regex in enumerate(special_names('./special_names.txt'))])
+    last_index = math.ceil(TOKENIZATION_RULES[-1][0] + 1)
+    TOKENIZATION_RULES.extend([(last_index+0.1*(i+1), regex) for i,regex in enumerate(abbrivations('./abbrivations.txt'))])
+    last_index = math.ceil(TOKENIZATION_RULES[-1][0] + 1)
+    TOKENIZATION_RULES.extend([
+    (last_index+0,urls()),
+    (last_index+1,english_word()),
+    (last_index+2,arm_postfix_word()),
+    (last_index+3,arm_non_linear_word()),
+    (last_index+4,single_measures()),
+    (last_index+5,armenian_word()),
+    (last_index+6,russian_word()),
+    (last_index+7,dots()),
+    (last_index+8,all_linear_puncts()),
+    (last_index+9,all_non_linear_puncts())])
+
+
+
+
 	# (1,  u'[' + Punct.inter() + ']'), # 5°С, $5, -5, +5
 	# (2,  Punct.metric(double=True)), # 5կմ/ժ, 5մ/վ
 	# (3,  u'[0-2]?[0-9]:[0-5]?[0-9]'), #times, e.g. 5:23'
@@ -61,7 +92,7 @@ class Tokenizer(ArmTokenizerBase):
 	# (24, u'([' + Punct.all() + ']{1})'), #all punctuations
 	# (25, u'([' + Punct.all(linear=False) + ']{1})'), #all non linear punctuations
 
-  ]
+  
 	SPECIAL_RULES = {
 	'segment': [
 	  ( '__all__', False, u'[' + Punct('b_chakert').regex() + ']\s*[ա-ֆԱ-ՖևA-Za-zА-Яа-яёЁ]{1}[ա-ֆԱ-ՖևA-Za-zА-Яа-яёЁ\s։]+[^' + Punct('p_chakert').regex() + ']$' ), #<<bla bla: bla>> is not a segment
