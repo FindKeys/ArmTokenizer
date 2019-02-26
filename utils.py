@@ -64,7 +64,7 @@ def time():
 def float_numbers(without_first=False):
 	if without_first == False:
 		return r'(?:^|\s|\s[+-]{1})(\d+[\.,/]{1}\d+)(?:\s|$)'
-	return r'(?:^|\s)([\.,]\d+)(?:\s|$)'
+	return r'(?:^|\s)([\.,]?\d+)(?:\s|$)'
 
 def email():
 	return r'(?:\s|^)([a-zA-Z0-9][a-zA-Z0-9_.'+ Punct('gtcik').regex() +']+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(?:\s|$)'
@@ -87,15 +87,11 @@ def all_non_linear_puncts():
 def special_names(vocab_path):
 	with open(vocab_path,'r') as txt:
 		vocab = txt.read().split('\n')
-	for special_word in vocab:
-		if '-' in special_word:
-			special_word = '(?:'+Punct('gtcik').regex()+r'|-)'.join(special_word.split('-'))
-		yield r'(?:\s|^)({})(?:\s|$)'.format(special_word)
+	r = r'|'.join([r'(?:\s|^)({})(?:\s|$)'.format(special_word) for special_word in vocab])
+	return r
 
 def abbrivations(abbr_path):
 	with open(abbr_path,'r') as txt:
 		vocab = txt.read().split('\n')
-	for abbr in vocab:
-		if '.' in abbr:
-			abbr = '(?:'+Punct('mijaket').regex()+')'.join(abbr.split('.'))
-		yield r'(?:\s|^)({})(?:\s|$)'.format(abbr)
+	r = r'|'.join([r'(?:\s|^)({})(?:\s|$)'.format(abbr) for abbr in vocab])
+	return r

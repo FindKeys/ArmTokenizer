@@ -42,26 +42,20 @@ class Tokenizer(ArmTokenizerBase):
 	(6.2, postfix_2()),
 	(6.3, postfix_3()),
 	(7,   email()),
-	(8,   hashtags())]
-
-	TOKENIZATION_RULES.extend([(9.1+0.1*i, regex) for i,regex in enumerate(special_names('./special_names.txt'))])
-    last_index = math.ceil(TOKENIZATION_RULES[-1][0] + 1)
-    TOKENIZATION_RULES.extend([(last_index+0.1*(i+1), regex) for i,regex in enumerate(abbrivations('./abbrivations.txt'))])
-    last_index = math.ceil(TOKENIZATION_RULES[-1][0] + 1)
-    TOKENIZATION_RULES.extend([
-    (last_index+0,urls()),
-    (last_index+1,english_word()),
-    (last_index+2,arm_postfix_word()),
-    (last_index+3,arm_non_linear_word()),
-    (last_index+4,single_measures()),
-    (last_index+5,armenian_word()),
-    (last_index+6,russian_word()),
-    (last_index+7,dots()),
-    (last_index+8,all_linear_puncts()),
-    (last_index+9,all_non_linear_puncts())])
-
-
-
+	(8,   hashtags()),
+	(9,   special_names('./special_names.txt')),
+	(10,  abbrivations('./abbrivations.txt')),
+	(11,  urls()),
+	(12,  english_word()),
+	(13,  arm_postfix_word()),
+	(14,  arm_non_linear_word()),
+	(15,  single_measures()),
+	(16,  armenian_word()),
+	(17,  russian_word()),
+	(18,  dots()),
+	(19,  all_linear_puncts()),
+	(20,  all_non_linear_puncts())]
+	print(TOKENIZATION_RULES)
 
 	# (1,  u'[' + Punct.inter() + ']'), # 5°С, $5, -5, +5
 	# (2,  Punct.metric(double=True)), # 5կմ/ժ, 5մ/վ
