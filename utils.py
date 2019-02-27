@@ -70,7 +70,7 @@ def double_measures():
     	return r'(?:\s|^||\s(?:\d+?\.?\d*))(' + pattern + ')(?!\w|ա-ֆԱ-Ֆև)'
 
 def time():
-	return r'([0-2]?\d:[0-5]?\d)'
+	return r'([0-2]?\d:[0-5]?\d)(?!\w|ա-ֆԱ-Ֆև)'
 
 def float_numbers(without_first=False):
 	if without_first == False:
@@ -78,7 +78,7 @@ def float_numbers(without_first=False):
 	return r'([\.,]\d+)'
 
 def email():
-	return r'([a-zA-Z0-9][a-zA-Z0-9_.'+ Punct('gtcik').regex() +']+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)'
+   	return r'([a-zA-Z0-9][a-zA-Z0-9_.'+ Punct('gtcik').regex() +']+@[a-zA-Z0-9-]+\.[a-zA-Z0]{2,3}(?!\w|ա-ֆԱ-Ֆև))'
 
 def hashtags():
 	return r'([@#][ա-ֆԱ-Ֆևa-zA-Z0-9а-яА-ЯЁё'+Punct('gtcik').regex()+']+)'
