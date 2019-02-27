@@ -87,7 +87,7 @@ def armenian_word():
 	return r'([ա-ֆԱ-Ֆև]+)'
 
 def arm_non_linear_word():
-	return r'([ա-ֆԱ-Ֆև]+[' + Punct.all(linear=False) + ']{1,3})'
+	return r'([ա-ֆԱ-Ֆև]+[' + Punct.all(linear=False) + ']{1,3})(?!\w|ա-ֆԱ-Ֆև)'
 
 def dots():
 	return r'(\.{3,4})'
