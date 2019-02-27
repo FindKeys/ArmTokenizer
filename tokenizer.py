@@ -41,6 +41,7 @@ class Tokenizer(ArmTokenizerBase):
 	(6.1, postfix_1()),
 	(6.2, postfix_2()),
 	(6.3, postfix_3()),
+	(21., numbers()),
 	(7,   email()),
 	(8,   hashtags()),
 	(9,   special_names('./special_names.txt')),
@@ -49,13 +50,14 @@ class Tokenizer(ArmTokenizerBase):
 	(12,  english_word()),
 	(13,  arm_postfix_word()),
 	(14,  arm_non_linear_word()),
-	(15,  single_measures()),
+	(8.1, single_measures_with_postfix()),
+	(15,  single_measures()), 
+
 	(16,  armenian_word()),
 	(17,  russian_word()),
 	(18,  dots()),
 	(19,  all_linear_puncts()),
 	(20,  all_non_linear_puncts())]
-	print(TOKENIZATION_RULES)
 
 	# (1,  u'[' + Punct.inter() + ']'), # 5°С, $5, -5, +5
 	# (2,  Punct.metric(double=True)), # 5կմ/ժ, 5մ/վ
@@ -79,7 +81,7 @@ class Tokenizer(ArmTokenizerBase):
 	# (19, u'[Ա-Ֆևа-яА-ЯЁёA-Za-z]+'+ '(' + Punct('gtcik').regex() + ')' +'[ա-ֆև]+'), #ՀՀԿ-ական 
 	# (20, u'[ա-ֆԱ-Ֆևև]+[' + Punct.all(linear=False) + ']{1,3}'), #հեյ~(հե~յ)
 	# (2.1, u'(' + Punct.metric(double=False)+ ')'+'([' + Punct('gtcik').regex() + ']){1}' +'[ա-ֆև]+') ,# 5կմ, 5մ
-	# (21, u'[ա-ֆԱ-Ֆևև]+'), #simple word 
+	# (21, u'[ա-ֆԱ-Ֆևև]+'), #simple word
 	# (22, u'[а-яА-ЯЁё]+'), #russian word
 	# (23, u'\.{3,4}'), #.... , ...
 	
@@ -108,7 +110,7 @@ class Tokenizer(ArmTokenizerBase):
 	def cleaning(self):
 		for r in self.PURIFICATION_RULES:
 			self.text = re.sub(r[0], r[1], self.text)
-		self.text =  re.sub('[\s]+', '  ',self.text).rstrip()#double spaces
+		self.text =  re.sub('[\s\t\n]+', ' ',self.text).rstrip()#double spaces
 
 		self.length = len(self.text)
 		return self
@@ -205,7 +207,7 @@ class Tokenizer(ArmTokenizerBase):
 		
 	
 	@overrides(ArmTokenizerBase)
-	def tokenize(self, s):
+	def tokenize(self, s,verbose=False):
 		self.__init__(s)
 		self.segmentize()
 		for s in self.segments:
@@ -213,7 +215,7 @@ class Tokenizer(ArmTokenizerBase):
 			index = 1
 	  
 			while l < len(s['segment']):
-				token = self.find_token(s['segment'], l)
+				token = self.find_token(s['segment'], l, verbose)
 				if token:
 					l += token.end()
 					new_token = token.group(0)
