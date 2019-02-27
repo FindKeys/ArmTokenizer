@@ -81,7 +81,7 @@ def email():
    	return r'([a-zA-Z0-9][a-zA-Z0-9_.'+ Punct('gtcik').regex() +']+@[a-zA-Z0-9-]+\.[a-zA-Z0]{2,3}(?!\w|ա-ֆԱ-Ֆև))'
 
 def hashtags():
-	return r'([@#][ա-ֆԱ-Ֆևa-zA-Z0-9а-яА-ЯЁё'+Punct('gtcik').regex()+']+)'
+	return r'(?:^| )([@#][ա-ֆԱ-Ֆևa-zA-Z0-9а-яА-ЯЁё'+Punct('gtcik').regex()+']+)'
 
 def armenian_word():
 	return r'([ա-ֆԱ-Ֆև]+)'
