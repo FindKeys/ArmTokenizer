@@ -17,7 +17,7 @@ def inter_measures():
 
 def single_measures(): 
 	pattern = r'|'.join(sorted(Punct.metric(double=False).split('|'),key=lambda x: len(x),reverse=True))
-	return r'(?:\s|^|(?:[\s^]?[\+\-]?\d+?\.?\d*))(' + pattern + '){1}(?:\s|$|'+Punct('verjaket').regex()+')' 
+	return r'(?:\s|^|(?:[\s^]?[\+\-]?\d+?\.?\d*))(' + pattern + '){1}(?:\s|$|'+Punct('verjaket').regex()+')(?!\w|ա-ֆԱ-Ֆև)' 
 
 def single_measures_with_postfix():
 	pattern = r'|'.join(sorted(Punct.metric(double=False).split('|'),key=lambda x: len(x),reverse=True))
@@ -66,8 +66,8 @@ def all_linear_puncts():
 	return r'{}'.format('([' + Punct.all() + ']{1})')
 
 def double_measures():
-	pattern = r'|'.join(sorted(Punct.metric(double=True).split('|'),key=lambda x: len(x),reverse=True))
-	return r'(?:\s|^|\s(?:\d+?\.?\d*))('+ pattern+ ')'
+   	pattern = r'|'.join(sorted(Punct.metric(double=True).split('|'),key=lambda x: len(x),reverse=True))
+    	return r'(?:\s|^||\s(?:\d+?\.?\d*))(' + pattern + ')(?!\w|ա-ֆԱ-Ֆև)'
 
 def time():
 	return r'([0-2]?\d:[0-5]?\d)'
