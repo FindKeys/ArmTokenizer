@@ -25,7 +25,6 @@ class PatternTest(unittest.TestCase):
 		test3 = "+5.1 off!!! +4km/j"
 		test4 = " 605°С-ից բարձր"
 		test5 = " ehhhh1000$"
-
 		compile = re.compile(inter_measures())
 		res1 = re.findall(compile,test1)
 		res2 = re.findall(compile,test2)
@@ -40,7 +39,18 @@ class PatternTest(unittest.TestCase):
 
 
 	def test_double_measures(self): 
-		pass
+		test1 = '100կմ/ժ,  60մ/վ  4.006գ/տ:'
+		test2 = '  Մարդու  միջին  արագությունը  5կմ/ժ  է:'
+		test3 = 'Ընդհամենը5կմ/ժ  ?  Ես  կարծում  էի  10մ/ժ :'
+		test4 = '  7.9կմ/վէ  առաջին  տիեզերական  արագությունը :'
+		res1 = re.findall(double_measures(),test1)
+		res2 = re.findall(double_measures(),test2)
+		res3 = re.findall(double_measures(),test3)
+		res4 = re.findall(double_measures(),test4)
+		self.assertEqual(res1, ['կմ/ժ', 'մ/վ', 'գ/տ'])
+		self.assertEqual(res2, ['կմ/ժ'])
+		self.assertEqual(res3, ['կմ/ժ', 'մ/ժ'])
+		self.assertEqual(res4, [])
 
 	def test_single_measures(self): 
 		METRIC = [ 'կմ', 'մ','սմ' , 'մմ', 'ժ', 'վ', 'ր', 'մվ', 'կգ', 'գ',  'մգ', 'տ' , 'ց','ք']
@@ -56,7 +66,16 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res3, ['սմ'])
 
 	def test_time(self): 
-		pass
+	        test1 = '10:00  6: 24   8:14է'
+	        test2 = 'Ժամը  1:23  է:'
+	        test3 = 'Առավոտյան  20:00'
+	        res1 = re.findall(time(),test1)
+	        res2 = re.findall(time(),test2)
+	        res3 = re.findall(time(),test3)
+	        self.assertEqual(res1, ['10:00'])
+	        self.assertEqual(res2, ['1:23'])
+	        self.assertEqual(res3, ['20:00'])
+
 	def test_date(self): 
 		# 10.16.2000 10/16/2000 10,16,2000
 		test1 = " 10.16.2000  10/16/2000  10,16,2000"
@@ -70,16 +89,19 @@ class PatternTest(unittest.TestCase):
 		res3 = re.findall(compile,test3)
 		res4 = re.findall(compile,test4)
 		res5 = re.findall(compile,test5)
-
 		self.assertEqual(res1, ["10.16.2000","10/16/2000","10,16,2000"])
 		self.assertEqual(res2, [])
 		self.assertEqual(res3, ["10/16/2000"])
 		self.assertEqual(res4, ["10.16.2000","10.16.2000"])
 		self.assertEqual(res5, ["10.16.2000","10.16.2000"])
 
-
 	def test_float_numbers(self,without_first=False): 
-		pass
+		test1 = '2.5  10,7  2/3'
+		test2 = '5/2  կամ  2.5 :'
+		res1 = re.findall(float_numbers(),test1)
+		res2 = re.findall(float_numbers(),test2)
+		self.assertEqual(res1, ['2.5', '10,7', '2/3'])
+		self.assertEqual(res2, ['5/2', '2.5'])
 
 	def test_postfix_1(self): 
 		test1 = " 10-16-րդ"
@@ -87,7 +109,6 @@ class PatternTest(unittest.TestCase):
 		test3 = " 2-3-րորդական պ"
 		test4 = "4-5-ական  4-5-ական "
 		compile = re.compile(postfix_1())
-
 		res1 = re.findall(compile,test1)
 		res2 = re.findall(compile,test2)
 		res3 = re.findall(compile,test3)
@@ -103,7 +124,6 @@ class PatternTest(unittest.TestCase):
 		test3 = " Pushkini-24"
 		test4 = " -24"
 		compile = re.compile(postfix_2())
-
 		res1 = re.findall(compile,test1)
 		res2 = re.findall(compile,test2)
 		res3 = re.findall(compile,test3)
@@ -128,9 +148,13 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res3, ["6_ին"])
 		self.assertEqual(res4, [])
 
-
 	def test_email(self): 
-		pass
+		test1 = 'davitkar98@gmail.com   FindKeys@armmai.com'
+		test2 = 'InvalidEmail.comasdasd'
+		res1 = re.findall(email(),test1)
+		res2 = re.findall(email(),test2)
+		self.assertEqual(res1, ['davitkar98@gmail.com', 'FindKeys@armmai.com'])
+		self.assertEqual(res2, [])
 
 	def test_urls(self): 
 		test1 = " [news.am]"
@@ -154,11 +178,24 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res6, ['https://github.com/FindKeys/ArmTokenizer'])
 
 	def test_hashtags(self): 
-		pass
-	def test_special_names(self): 
-		pass
+		test1 = '@DavidS  ,  #FindKeys'
+		test2 = ' asdasd#InvalidHashtag  @Valid'
+		res1 = re.findall(hashtags(),test1)
+		res2 = re.findall(hashtags(),test2)
+		self.assertEqual(res1, ['@DavidS', '#FindKeys'])
+		self.assertEqual(res2, ['@Valid'])
+	
+	def test_armenian_word(self): 
+		test1 = 'Անուն  ազգանուն  հայրանուն:'
+		test2 = 'Մեր  նպատակն  է  կիրառել  մեր  ողջ  մտավոր  ուժը:'
+		res1 = re.findall(armenian_word(),test1)
+		res2 = re.findall(armenian_word(),test2)
+		self.assertEqual(res1, ['Անուն', 'ազգանուն', 'հայրանուն'])
+		self.assertEqual(res2, ['Մեր', 'նպատակն', 'է', 'կիրառել', 'մեր', 'ողջ', 'մտավոր', 'ուժը'])
+
 	def test_abbrivations(self): 
 		pass
+	
 	def test_english_word(self):
 		test1 = "Anyone who reads Old and Middle English literary texts will be familiar with the"
 		test2 = '[{( one-two)]}'
@@ -173,10 +210,6 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res2, ["one","two"])
 		self.assertEqual(res3, ["Heellooo","it's","me"])
 		self.assertEqual(res4, ["one","two"])
-
-
-	def test_armenian_word(self): 
-		pass
 
 	def test_arm_postfix_word(self):
 		test1 = 'ՀՀԿ-ական'
@@ -194,7 +227,15 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res4,['Ֆ_կլասի'])
 
 	def test_arm_non_linear_word(self):
-		pass
+		test1 = 'հեյ~  հե~յ'
+		test2 = 'Քո  հետ  կատարվածում  մեղավոր ես  միայն  դու,  հասկացար՞:'
+		test3 = 'Եղիր՛  առաջինը:'
+		res1 = re.findall(arm_non_linear_word(),test1)
+		res2 = re.findall(arm_non_linear_word(),test2)
+		res3 = re.findall(arm_non_linear_word(),test3)
+		self.assertEqual(res2, ['հեյ~'])
+		self.assertEqual(res3, ['հասկացար՞'])
+		self.assertEqual(res3, ['Եղիր՛'])
 		
 	def test_russian_word(self):
 		test1 = "Доброе утро."
@@ -208,9 +249,13 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res2,['Как', "дела"])
 		self.assertEqual(res3,['В', "прошлом", "году", "мой" ,"друг" ,"построил", "дом"])
 
-
 	def test_dots(self):
-		pass
+	        test1 = '....  ...'
+	        test2 = 'Hmm....'
+	        res1 = re.findall(dots(),test1)
+	        res2 = re.findall(dots(),test2)
+	        self.assertEqual(res2, ['....', '...'])
+	        self.assertEqual(res3, ['....'])
 
 	def test_all_linear_puncts(self):
 		test1 = ". ? : « » ! ՜ ՝ , յ,-."
@@ -218,9 +263,13 @@ class PatternTest(unittest.TestCase):
 		res1 = re.findall(compile,test1)
 		self.assertEqual(res1,['.', ':', '«', '»', '՝', ',', ',', '.'])
 
-
 	def test_all_non_linear_puncts(self):
-		pass
+		test1 = '՚  ՚  ՛  ՛  ՜  ՜'
+		test2 = 'Մի՛  արա  այդպես,  հե՜յ  լսու՞մ  ես  ինձ:'
+		res1 = re.findall(all_non_linear_puncts(),test1)
+		res2 = re.findall(all_non_linear_puncts(),test2)
+		self.assertEqual(res2, ['՚', '՚', '՛', '՛', '՜', '՜'])
+		self.assertEqual(res3, ['՛', '՜', '՞'])
 
 if __name__ == '__main__':
 	unittest.main()
