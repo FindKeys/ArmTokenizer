@@ -192,9 +192,6 @@ class PatternTest(unittest.TestCase):
 		res2 = re.findall(armenian_word(),test2)
 		self.assertEqual(res1, ['Անուն', 'ազգանուն', 'հայրանուն'])
 		self.assertEqual(res2, ['Մեր', 'նպատակն', 'է', 'կիրառել', 'մեր', 'ողջ', 'մտավոր', 'ուժը'])
-
-	def test_abbrivations(self): 
-		pass
 	
 	def test_english_word(self):
 		test1 = "Anyone who reads Old and Middle English literary texts will be familiar with the"
@@ -270,6 +267,12 @@ class PatternTest(unittest.TestCase):
 		res2 = re.findall(all_non_linear_puncts(),test2)
 		self.assertEqual(res1, ['՚', '՚', '՛', '՛', '՜', '՜'])
 		self.assertEqual(res2 ['՛', '՜', '՞'])
+		
+	def test_abbrivations(self): 
+		pass
+	
+	def test_special_names(self): 
+		pass
 
 if __name__ == '__main__':
 	unittest.main()
