@@ -228,13 +228,13 @@ class PatternTest(unittest.TestCase):
 
 	def test_arm_non_linear_word(self):
 		test1 = 'հեյ~  հե~յ'
-		test2 = 'Քո  հետ  կատարվածում  մեղավոր ես  միայն  դու,  հասկացար՞:'
+		test2 = 'Քո  հետ  կատարվածում  մեղավոր  ես  միայն  դու,  հասկացար՞:'
 		test3 = 'Եղիր՛  առաջինը:'
 		res1 = re.findall(arm_non_linear_word(),test1)
 		res2 = re.findall(arm_non_linear_word(),test2)
 		res3 = re.findall(arm_non_linear_word(),test3)
-		self.assertEqual(res2, ['հեյ~'])
-		self.assertEqual(res3, ['հասկացար՞'])
+		self.assertEqual(res1, ['հեյ~'])
+		self.assertEqual(res2, ['հասկացար՞'])
 		self.assertEqual(res3, ['Եղիր՛'])
 		
 	def test_russian_word(self):
@@ -254,8 +254,8 @@ class PatternTest(unittest.TestCase):
 	        test2 = 'Hmm....'
 	        res1 = re.findall(dots(),test1)
 	        res2 = re.findall(dots(),test2)
-	        self.assertEqual(res2, ['....', '...'])
-	        self.assertEqual(res3, ['....'])
+	        self.assertEqual(res1, ['....', '...'])
+	        self.assertEqual(res2, ['....'])
 
 	def test_all_linear_puncts(self):
 		test1 = ". ? : « » ! ՜ ՝ , յ,-."
@@ -268,8 +268,8 @@ class PatternTest(unittest.TestCase):
 		test2 = 'Մի՛  արա  այդպես,  հե՜յ  լսու՞մ  ես  ինձ:'
 		res1 = re.findall(all_non_linear_puncts(),test1)
 		res2 = re.findall(all_non_linear_puncts(),test2)
-		self.assertEqual(res2, ['՚', '՚', '՛', '՛', '՜', '՜'])
-		self.assertEqual(res3, ['՛', '՜', '՞'])
+		self.assertEqual(res1, ['՚', '՚', '՛', '՛', '՜', '՜'])
+		self.assertEqual(res2 ['՛', '՜', '՞'])
 
 if __name__ == '__main__':
 	unittest.main()
