@@ -67,16 +67,16 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res3, ['սմ'])
 
 	def test_time(self): 
-	        test1 = '10:00  6: 24   8:14է'
-	        test2 = 'Ժամը  1:23  է:'
-	        test3 = 'Առավոտյան  20:00'
-		compile = re.compile(time())
-	        res1 = re.findall(compile,test1)
-	        res2 = re.findall(compile,test2)
-	        res3 = re.findall(compile,test3)
-	        self.assertEqual(res1, ['10:00'])
-	        self.assertEqual(res2, ['1:23'])
-	        self.assertEqual(res3, ['20:00'])
+			test1 = '10:00  6: 24   8:14է'
+			test2 = 'Ժամը  1:23  է:'
+			test3 = 'Առավոտյան  20:00'
+			compile = re.compile(time())
+			res1 = re.findall(compile,test1)
+			res2 = re.findall(compile,test2)
+			res3 = re.findall(compile,test3)
+			self.assertEqual(res1, ['10:00'])
+			self.assertEqual(res2, ['1:23'])
+			self.assertEqual(res3, ['20:00'])
 
 	def test_date(self): 
 		# 10.16.2000 10/16/2000 10,16,2000
@@ -254,13 +254,13 @@ class PatternTest(unittest.TestCase):
 		self.assertEqual(res3,['В', "прошлом", "году", "мой" ,"друг" ,"построил", "дом"])
 
 	def test_dots(self):
-	        test1 = '....  ...'
-	        test2 = 'Hmm....'
-		compile = re.compile(dots())
-	        res1 = re.findall(compile,test1)
-	        res2 = re.findall(compile,test2)
-	        self.assertEqual(res1, ['....', '...'])
-	        self.assertEqual(res2, ['....'])
+			test1 = '....  ...'
+			test2 = 'Hmm....'
+			compile = re.compile(dots())
+			res1 = re.findall(compile,test1)
+			res2 = re.findall(compile,test2)
+			self.assertEqual(res1, ['....', '...'])
+			self.assertEqual(res2, ['....'])
 
 	def test_all_linear_puncts(self):
 		test1 = ". ? : « » ! ՜ ՝ , յ,-."
@@ -275,7 +275,7 @@ class PatternTest(unittest.TestCase):
 		res1 = re.findall(compile,test1)
 		res2 = re.findall(compile,test2)
 		self.assertEqual(res1, ['՚', '՚', '՛', '՛', '՜', '՜'])
-		self.assertEqual(res2 ['՛', '՜', '՞'])
+		self.assertEqual(res2, ['՛', '՜', '՞'])
 		
 	def test_abbrivations(self): 
 		pass
