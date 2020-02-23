@@ -13,3 +13,5 @@ Tokenizer for Armenian Language
 ['Խուզարկությամբ', 'հայտնաբերվեց', 'տնկված', '208', 'հատ', ',', 'մինչ', '4', 'մ', 'բարձրության', 'կանեփի', 'թուփ', ':']
 
 ```
+
+See https://github.com/gorarakelyan/Hy-Tokenizer for more information
