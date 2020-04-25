@@ -4,7 +4,7 @@ Tokenizer for Armenian Language
 ## Usage
 ```python
 #import Tokenizer
->>> from tokenizer import Tokenizer
+>>> from armtok import Tokenizer
 >>> line = "Խուզարկությամբ հայտնաբերվեց տնկված 208 հատ, մինչ 4մ բարձրության կանեփի թուփ:"
 >>> tokenizer = Tokenizer()
 >>> tokenizer.tokenize(line)

@@ -96,9 +96,8 @@ def dots():
 def all_non_linear_puncts():
     return r'([' + Punct.all(linear=False) + ']{1})'
 
-def special_names(vocab_path):
-    with open(vocab_path,'r') as txt:
-        vocab = txt.read().split('\n')
+def special_names(vocab):
+
     gtcikner = set((Punct('gtcik').regex()+'|-').replace('|',''))
     new_vocab = []
     for i,word in enumerate(vocab):
@@ -113,9 +112,7 @@ def special_names(vocab_path):
     r = r'|'.join([r'(?:{})'.format(special_word) for special_word in set(new_vocab)])
     return '('+r+')'
 
-def abbrivations(abbr_path):
-    with open(abbr_path,'r') as txt:
-        vocab = txt.read().split('\n')
+def abbrivations(abbrs):
 
-    r = r'|'.join([r'({})'.format(abbr) for abbr in vocab])
+    r = r'|'.join([r'({})'.format(abbr) for abbr in abbrs])
     return r

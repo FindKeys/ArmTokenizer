@@ -10,6 +10,9 @@ from armtok.punct import Punct
 #Class Defination
 class Tokenizer(ArmTokenizerBase):
     
+    SPECIAL_NAMES = ["մեկ-երկու"]
+    ABRIVIATIONS = ["INC."]
+
     PURIFICATION_RULES = [
         ('–', '—'),
         ('-', '—'),
@@ -44,8 +47,8 @@ class Tokenizer(ArmTokenizerBase):
     (21., numbers()),
     (7,   email()),
     (8,   hashtags()),
-    (9,   special_names('./special_names.txt')),
-    (10,  abbrivations('./abbrivations.txt')),
+    (9,   special_names(SPECIAL_NAMES)),
+    (10,  abbrivations(ABRIVIATIONS)),
     (11,  urls()),
     (12,  english_word()),
     (13,  arm_postfix_word()),
@@ -106,7 +109,7 @@ class Tokenizer(ArmTokenizerBase):
         self.text = sent
         self.length = len(sent) if sent is not None else 0
         self.segments = []
-        
+
     def cleaning(self):
         for r in self.PURIFICATION_RULES:
             self.text = re.sub(r[0], r[1], self.text)
